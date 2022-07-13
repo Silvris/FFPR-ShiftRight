@@ -30,6 +30,11 @@ namespace FFPR_ShiftRight
                     //as a note, if your target is a prefab, edit the dictionary version to copy it across all versions
                     //instead of searching for every instance
                     GameObject infoWindow = __instance.completeAssetDic[addressName].Cast<GameObject>();
+                    //we now actually want to edit this one as well
+                    if(ModComponent.Config.WindowMode == WindowModes.OverlayDown)
+                    {
+                        infoWindow.transform.localPosition = new Vector3(0f, -50f, 0f);
+                    }
                     GameObject r1 = ModComponent.GetDirectChild(infoWindow, "root");
                     if(r1 != null)
                     {
@@ -47,8 +52,11 @@ namespace FFPR_ShiftRight
                                     RectTransform eiw = enemyInfo.GetComponent<RectTransform>();
                                     if(eiw != null)
                                     {
-                                        eiw.offsetMax = new Vector2(462f, 0f);
-                                        eiw.offsetMin = new Vector2(-338f, -228f);
+                                        if (ModComponent.Config.WindowMode == WindowModes.ShiftRight || ModComponent.Config.WindowMode == WindowModes.OverlayDown)
+                                        {
+                                            eiw.offsetMax = new Vector2(462f, 0f);
+                                            eiw.offsetMin = new Vector2(-338f, -228f);
+                                        }
                                     }
                                 }
                             }
@@ -59,10 +67,20 @@ namespace FFPR_ShiftRight
                                 RectTransform cwr = commandWindow.GetComponent<RectTransform>();
                                 if(cwr != null)
                                 {
-                                    cwr.anchorMin = new Vector2(1f, 3.75f);
-                                    cwr.anchorMax = new Vector2(1f, 3.75f);
+                                    if(ModComponent.Config.WindowMode == WindowModes.ShiftRight)
+                                    {
+                                        cwr.anchorMin = new Vector2(1f, 3.75f);
+                                        cwr.anchorMax = new Vector2(1f, 3.75f);
+                                    }
+                                    if(ModComponent.Config.WindowMode == WindowModes.OverlayDown)
+                                    {
+                                        cwr.anchorMin = new Vector2(0.35f, 0.5f);
+                                        cwr.anchorMax = new Vector2(0.35f, 0.5f);
+                                        cwr.SetAsLastSibling();
+                                    }
+
                                 }
-                                ModComponent.Log.LogInfo("cwr was null");
+                                else ModComponent.Log.LogInfo("cwr was null");
                             }
                             else
                             {

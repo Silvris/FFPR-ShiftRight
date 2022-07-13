@@ -9,6 +9,12 @@ using UnityEngine;
 
 namespace FFPR_ShiftRight
 {
+    public enum WindowModes
+    {
+        Disabled,
+        ShiftRight,
+        OverlayDown
+    }
     public sealed class ModComponent : MonoBehaviour
     {
         public static ModComponent Instance { get; private set; }

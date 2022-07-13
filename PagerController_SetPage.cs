@@ -18,42 +18,45 @@ namespace FFPR_ShiftRight
         }
         public static void Postfix(PagerController __instance)
         {
-            if(__instance.gameObject.name == "arrow_root")
+            if(ModComponent.Config.WindowMode == WindowModes.ShiftRight)
             {
-                //this has strong potential for problems, but lets see where we can take it
-                //if nothing, scene checking could be done
-                if(__instance.gameObject.scene != null)
+                if (__instance.gameObject.name == "arrow_root")
                 {
-                    if(__instance.gameObject.scene.name == "BattleMenu")
+                    //this has strong potential for problems, but lets see where we can take it
+                    //if nothing, scene checking could be done
+                    if (__instance.gameObject.scene != null)
                     {
-                        GameObject csw = __instance.transform.parent.gameObject;
-                        if(csw != null)
+                        if (__instance.gameObject.scene.name == "BattleMenu")
                         {
-                            GameObject battleWindow = ModComponent.GetDirectChild(csw, "battle_window");
-                            GameObject r3 = ModComponent.GetDirectChild(csw, "root");
-                            if(battleWindow != null && r3 != null)
+                            GameObject csw = __instance.transform.parent.gameObject;
+                            if (csw != null)
                             {
-                                int activeCommands = 0;
-                                for(int i = 0; i < r3.transform.childCount; i++)
+                                GameObject battleWindow = ModComponent.GetDirectChild(csw, "battle_window");
+                                GameObject r3 = ModComponent.GetDirectChild(csw, "root");
+                                if (battleWindow != null && r3 != null)
                                 {
-                                    Transform ct = r3.transform.GetChild(i);
-                                    if (ct.gameObject.active)
+                                    int activeCommands = 0;
+                                    for (int i = 0; i < r3.transform.childCount; i++)
                                     {
-                                        activeCommands++;
+                                        Transform ct = r3.transform.GetChild(i);
+                                        if (ct.gameObject.active)
+                                        {
+                                            activeCommands++;
+                                        }
                                     }
-                                }
-                                if(activeCommands > 4)
-                                {
-                                    return;
-                                }
-                                for(int i = 0; i < battleWindow.transform.childCount; i++)
-                                {
-                                    Transform ct = battleWindow.transform.GetChild(i);
-                                    GameObject child = ct.gameObject;
-                                    RectTransform rt = child.GetComponent<RectTransform>();
-                                    if(rt != null)
+                                    if (activeCommands > 4)
                                     {
-                                        AdjustRectTransforms(rt, ModComponent.WindowVals[activeCommands]);
+                                        return;
+                                    }
+                                    for (int i = 0; i < battleWindow.transform.childCount; i++)
+                                    {
+                                        Transform ct = battleWindow.transform.GetChild(i);
+                                        GameObject child = ct.gameObject;
+                                        RectTransform rt = child.GetComponent<RectTransform>();
+                                        if (rt != null)
+                                        {
+                                            AdjustRectTransforms(rt, ModComponent.WindowVals[activeCommands]);
+                                        }
                                     }
                                 }
                             }
@@ -62,5 +65,6 @@ namespace FFPR_ShiftRight
                 }
             }
         }
+            
     }
 }
